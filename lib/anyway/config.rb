@@ -4,14 +4,16 @@ require "anyway/optparse_config"
 require "anyway/dynamic_config"
 
 module Anyway # :nodoc:
-  using RubyNext
+  # using RubyNext
   using Anyway::Ext::DeepDup
   using Anyway::Ext::DeepFreeze
   using Anyway::Ext::Hash
 
   using(Module.new do
     refine Object do
-      def vm_object_id() = (object_id << 1).to_s(16)
+      def vm_object_id()
+        (object_id << 1).to_s(16)
+      end
     end
   end)
 
@@ -73,7 +75,9 @@ module Anyway # :nodoc:
         @name = name
       end
 
-      def apply_to(config) = config.send(name)
+      def apply_to(config)
+        config.send(name)
+      end
     end
 
     class << self
@@ -181,7 +185,9 @@ module Anyway # :nodoc:
           end
       end
 
-      def explicit_config_name?() = !explicit_config_name.nil?
+      def explicit_config_name?
+        !explicit_config_name.nil?
+      end
 
       def env_prefix(val = nil)
         return (@env_prefix = val.to_s.upcase) unless val.nil?
@@ -195,7 +201,9 @@ module Anyway # :nodoc:
         end
       end
 
-      def new_empty_config() = {}
+      def new_empty_config()
+        {}
+      end
 
       def coerce_types(mapping)
         Utils.deep_merge!(coercion_mapping, mapping)
@@ -333,7 +341,7 @@ module Anyway # :nodoc:
 
         config_path = resolve_config_path(config_name, env_prefix)
 
-        load_from_sources(base_config, name: config_name, env_prefix:, config_path:)
+        load_from_sources(base_config, name: config_name, env_prefix: env_prefix, config_path: config_path)
 
         if overrides
           Tracing.trace!(:load) { overrides }
@@ -366,9 +374,13 @@ module Anyway # :nodoc:
       base_config
     end
 
-    def dig(*keys) = values.dig(*keys)
+    def dig(*keys)
+      values.dig(*keys)
+    end
 
-    def to_h() = values.deep_dup.deep_freeze
+    def to_h
+      values.deep_dup.deep_freeze
+    end
 
     def dup
       self.class.allocate.tap do |new_config|
@@ -383,9 +395,13 @@ module Anyway # :nodoc:
       Anyway.env.fetch(env_prefix).delete("conf") || Settings.default_config_path.call(name)
     end
 
-    def deconstruct_keys(keys) = values.deconstruct_keys(keys)
+    def deconstruct_keys(keys)
+      values.deconstruct_keys(keys)
+    end
 
-    def to_source_trace() = __trace__&.to_h
+    def to_source_trace
+      __trace__&.to_h
+    end
 
     def inspect
       "#<#{self.class}:0x#{vm_object_id.rjust(16, "0")} config_name=\"#{config_name}\" env_prefix=\"#{env_prefix}\" " \

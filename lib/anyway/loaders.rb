@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Anyway
-  using RubyNext
+  # using RubyNext
 
   module Loaders
     class Registry
@@ -55,7 +55,9 @@ module Anyway
         registry.each(&block)
       end
 
-      def freeze() = registry.freeze
+      def freeze
+        registry.freeze
+      end
 
       private
 

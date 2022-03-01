@@ -13,7 +13,9 @@ module Anyway
       end
 
       refine Thread::Backtrace::Location do
-        def path_lineno() = "#{path}:#{lineno}"
+        def path_lineno
+          "#{path}:#{lineno}"
+        end
       end
     end)
 
@@ -78,19 +80,25 @@ module Anyway
         value.keep_if(...)
       end
 
-      def clear() = value.clear
+      def clear
+        value.clear
+      end
 
-      def trace?() = type == :trace
+      def trace?
+        type == :trace
+      end
 
       def to_h
         if trace?
           value.transform_values(&:to_h).tap { _1.default_proc = nil }
         else
-          {value:, source:}
+          {value: value, source: source}
         end
       end
 
-      def dup() = self.class.new(type, value.dup, **source)
+      def dup
+        self.class.new(type, value.dup, **source)
+      end
 
       def pretty_print(q)
         if trace?
@@ -139,7 +147,9 @@ module Anyway
         (Thread.current[:__anyway__trace_stack__] ||= [])
       end
 
-      def current_trace() = trace_stack.last
+      def current_trace
+        trace_stack.last
+      end
 
       alias_method :tracing?, :current_trace
 
@@ -171,9 +181,9 @@ module Anyway
       return yield unless Tracing.tracing?
       val = yield
       if val.is_a?(Hash)
-        Tracing.current_trace.merge_values(val, type:, **opts)
+        Tracing.current_trace.merge_values(val, type: type, **opts)
       else
-        Tracing.current_trace.record_value(val, *path, type:, **opts)
+        Tracing.current_trace.record_value(val, *path, type: type, **opts)
       end
       val
     end

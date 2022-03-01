@@ -3,7 +3,7 @@
 require "pathname"
 require "anyway/ext/hash"
 
-using RubyNext
+# using RubyNext
 using Anyway::Ext::Hash
 
 module Anyway

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Anyway
-  using RubyNext
+  # using RubyNext
 
   module Loaders
     class Env < Base

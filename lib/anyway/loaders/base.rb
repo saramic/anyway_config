@@ -7,7 +7,7 @@ module Anyway
 
       class << self
         def call(local: Anyway::Settings.use_local_files, **opts)
-          new(local:).call(**opts)
+          new(local: local).call(**opts)
         end
       end
 
@@ -15,7 +15,9 @@ module Anyway
         @local = local
       end
 
-      def use_local?() = @local == true
+      def use_local?
+        @local == true
+      end
     end
   end
 end

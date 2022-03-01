@@ -4,7 +4,7 @@ module Anyway
   # Parses environment variables and provides
   # method-like access
   class Env
-    using RubyNext
+    # using RubyNext
     using Anyway::Ext::DeepDup
     using Anyway::Ext::Hash
 
@@ -49,7 +49,7 @@ module Anyway
         path = key.sub(/^#{prefix}_/, "").downcase
 
         paths = path.split("__")
-        trace!(:env, *paths, key:) { data.bury(type_cast.call(val), *paths) }
+        trace!(:env, *paths, key: key) { data.bury(type_cast.call(val), *paths) }
       end
     end
   end

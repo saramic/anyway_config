@@ -17,7 +17,7 @@ module Anyway
         options[:env_prefix] ||= name.to_s.upcase
         options[:config_path] ||= config.resolve_config_path(name, options[:env_prefix])
 
-        raw_config = config.load_from_sources(new_empty_config, name:, **options)
+        raw_config = config.load_from_sources(new_empty_config, name: name, **options)
         return raw_config unless auto_cast
 
         AutoCast.call(raw_config)

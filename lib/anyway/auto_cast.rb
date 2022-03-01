@@ -46,8 +46,12 @@ module Anyway
   end
 
   module NoCast
-    def self.call(val) = val
+    def self.call(val)
+      val
+    end
 
-    def self.coerce(_key, val) = val
+    def self.coerce(_key, val)
+      val
+    end
   end
 end
