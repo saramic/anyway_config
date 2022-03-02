@@ -5,17 +5,17 @@ module Anyway
   module Tracing
     using Anyway::Ext::DeepDup
 
-    using(Module.new do
-      refine Hash do
-        def inspect
-          "{#{map { |k, v| "#{k}: #{v.inspect}" }.join(", ")}}"
-        end
-      end
+    # using(Module.new do
+    #   refine Hash do
+    #     def inspect
+    #       "{#{map { |k, v| "#{k}: #{v.inspect}" }.join(", ")}}"
+    #     end
+    #   end
 
-      refine Thread::Backtrace::Location do
-        def path_lineno() = "#{path}:#{lineno}"
-      end
-    end)
+    #   refine Thread::Backtrace::Location do
+    #     def path_lineno() = "#{path}:#{lineno}"
+    #   end
+    # end)
 
     class Trace
       UNDEF = Object.new
@@ -93,30 +93,31 @@ module Anyway
       def dup() = self.class.new(type, value.dup, **source)
 
       def pretty_print(q)
-        if trace?
-          q.nest(2) do
-            q.breakable ""
-            q.seplist(value, nil, :each) do |k, v|
-              q.group do
-                q.text k
-                q.text " =>"
-                q.breakable " " unless v.trace?
-                q.pp v
-              end
-            end
-          end
-        else
-          q.pp value
-          q.group(0, " (", ")") do
-            q.seplist(source, lambda { q.breakable " " }, :each) do |k, v|
-              q.group do
-                q.text k.to_s
-                q.text "="
-                q.text v.to_s
-              end
-            end
-          end
-        end
+        "prettyprint"
+        # if trace?
+        #   q.nest(2) do
+        #     q.breakable ""
+        #     q.seplist(value, nil, :each) do |k, v|
+        #       q.group do
+        #         q.text k
+        #         q.text " =>"
+        #         q.breakable " " unless v.trace?
+        #         q.pp v
+        #       end
+        #     end
+        #   end
+        # else
+        #   q.pp value
+        #   q.group(0, " (", ")") do
+        #     q.seplist(source, lambda { q.breakable " " }, :each) do |k, v|
+        #       q.group do
+        #         q.text k.to_s
+        #         q.text "="
+        #         q.text v.to_s
+        #       end
+        #     end
+        #   end
+        # end
       end
     end
 
@@ -161,7 +162,8 @@ module Anyway
       private
 
       def accessor_source(location)
-        {type: :accessor, called_from: location.path_lineno}
+        # {type: :accessor, called_from: location.path_lineno}
+        {type: :accessor, called_from: location}
       end
     end
 

@@ -9,11 +9,11 @@ module Anyway # :nodoc:
   using Anyway::Ext::DeepFreeze
   using Anyway::Ext::Hash
 
-  using(Module.new do
-    refine Object do
-      def vm_object_id() = (object_id << 1).to_s(16)
-    end
-  end)
+  # using(Module.new do
+  #   refine Object do
+  #     def vm_object_id() = (object_id << 1).to_s(16)
+  #   end
+  # end)
 
   # Base config class
   # Provides `attr_config` method to describe
@@ -388,22 +388,24 @@ module Anyway # :nodoc:
     def to_source_trace() = __trace__&.to_h
 
     def inspect
-      "#<#{self.class}:0x#{vm_object_id.rjust(16, "0")} config_name=\"#{config_name}\" env_prefix=\"#{env_prefix}\" " \
-      "values=#{values.inspect}>"
+      "inspect"
+      # "#<#{self.class}:0x#{vm_object_id.rjust(16, "0")} config_name=\"#{config_name}\" env_prefix=\"#{env_prefix}\" " \
+      # "values=#{values.inspect}>"
     end
 
     def pretty_print(q)
-      q.object_group self do
-        q.nest(1) do
-          q.breakable
-          q.text "config_name=#{config_name.inspect}"
-          q.breakable
-          q.text "env_prefix=#{env_prefix.inspect}"
-          q.breakable
-          q.text "values:"
-          q.pp __trace__
-        end
-      end
+      "pretty_print"
+      # q.object_group self do
+      #   q.nest(1) do
+      #     q.breakable
+      #     q.text "config_name=#{config_name.inspect}"
+      #     q.breakable
+      #     q.text "env_prefix=#{env_prefix.inspect}"
+      #     q.breakable
+      #     q.text "values:"
+      #     q.pp __trace__
+      #   end
+      # end
     end
 
     private
